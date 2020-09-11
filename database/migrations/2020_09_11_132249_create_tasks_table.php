@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->unsignedBigInteger('section_id');
             $table->string('name');
-            $table->enum('status', ['todo', 'done']);
+            $table->enum('status', ['todo', 'done'])->default('todo');
             $table->timestamps();
 
             $table->foreign('section_id')->references('id')->on('sections')->cascadeOnDelete();
