@@ -16,6 +16,15 @@ class SectionController extends Controller
         return Helpers::apiResponse(true, '', $sections);
     }
 
+    public function show($id)
+    {
+        $section = Section::with('tasks')->find($id);
+        if (!$section) {
+            return Helpers::apiResponse(false, 'Section Not Found', [], 400);
+        }
+        return Helpers::apiResponse(true, '', $section);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
