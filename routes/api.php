@@ -22,4 +22,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api\v1'], function () {
     Route::delete('sections/{id}', 'SectionController@destroy');
 
     Route::get('tasks', 'TaskController@index');
+    Route::post('tasks', 'TaskController@store');
 });
