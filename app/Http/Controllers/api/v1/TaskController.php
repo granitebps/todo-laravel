@@ -65,4 +65,22 @@ class TaskController extends Controller
             return Helpers::apiResponse(false, $th->getMessage(), [], 500);
         }
     }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            $task = Task::find($id);
+            if (!$task) {
+                return Helpers::apiResponse(false, 'Task Not Found', [], 404);
+            }
+
+            $task->delete();
+            DB::commit();
+            return Helpers::apiResponse(true, 'Task Deleted');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return Helpers::apiResponse(false, $th->getMessage(), [], 500);
+        }
+    }
 }
