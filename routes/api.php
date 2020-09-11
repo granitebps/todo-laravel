@@ -25,4 +25,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api\v1'], function () {
     Route::post('tasks', 'TaskController@store');
     Route::put('tasks/{id}', 'TaskController@update');
     Route::delete('tasks/{id}', 'TaskController@destroy');
+    Route::get('tasks_status/{id}', 'TaskController@change_status');
 });

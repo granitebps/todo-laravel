@@ -91,4 +91,26 @@ class TaskController extends Controller
             return Helpers::apiResponse(false, $th->getMessage(), [], 500);
         }
     }
+
+    public function change_status($id)
+    {
+        DB::beginTransaction();
+        try {
+            $task = Task::find($id);
+            if (!$task) {
+                return Helpers::apiResponse(false, 'Task Not Found', [], 404);
+            }
+
+            $prev_status = $task->status;
+            $status = $prev_status === 'todo' ? 'done' : 'todo';
+            $task->status = $status;
+            $task->save();
+
+            DB::commit();
+            return Helpers::apiResponse(true, 'Task Status Changed');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return Helpers::apiResponse(false, $th->getMessage(), [], 500);
+        }
+    }
 }
