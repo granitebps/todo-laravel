@@ -20,7 +20,7 @@ class SectionController extends Controller
     {
         $section = Section::with('tasks')->find($id);
         if (!$section) {
-            return Helpers::apiResponse(false, 'Section Not Found', [], 400);
+            return Helpers::apiResponse(false, 'Section Not Found', [], 404);
         }
         return Helpers::apiResponse(true, '', $section);
     }
