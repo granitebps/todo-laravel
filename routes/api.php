@@ -19,4 +19,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('sections/{id}', 'SectionController@show');
     Route::post('sections', 'SectionController@store');
     Route::put('sections/{id}', 'SectionController@update');
+    Route::delete('sections/{id}', 'SectionController@destroy');
 });

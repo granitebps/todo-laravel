@@ -65,4 +65,23 @@ class SectionController extends Controller
             return Helpers::apiResponse(false, $th->getMessage(), [], 500);
         }
     }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            $section = Section::find($id);
+            if (!$section) {
+                return Helpers::apiResponse(false, 'Section Not Found', [], 404);
+            }
+
+            $section->delete();
+            DB::commit();
+
+            return Helpers::apiResponse(true, 'Section Deleted');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return Helpers::apiResponse(false, $th->getMessage(), [], 500);
+        }
+    }
 }
