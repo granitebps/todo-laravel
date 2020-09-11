@@ -42,4 +42,27 @@ class SectionController extends Controller
             return Helpers::apiResponse(false, $th->getMessage(), [], 500);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $section = Section::find($id);
+            if (!$section) {
+                return Helpers::apiResponse(false, 'Section Not Found', [], 404);
+            }
+
+            $section->update($data);
+            DB::commit();
+
+            return Helpers::apiResponse(true, 'Section Updated');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return Helpers::apiResponse(false, $th->getMessage(), [], 500);
+        }
+    }
 }
