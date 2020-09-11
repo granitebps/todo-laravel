@@ -20,4 +20,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'api\v1'], function () {
     Route::post('sections', 'SectionController@store');
     Route::put('sections/{id}', 'SectionController@update');
     Route::delete('sections/{id}', 'SectionController@destroy');
+
+    Route::get('tasks', 'TaskController@index');
 });
