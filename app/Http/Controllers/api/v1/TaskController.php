@@ -38,4 +38,31 @@ class TaskController extends Controller
             return Helpers::apiResponse(false, $th->getMessage(), [], 500);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'section_id' => 'required|exists:sections,id'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $task = Task::find($id);
+            if (!$task) {
+                return Helpers::apiResponse(false, 'Task Not Found', [], 404);
+            }
+
+            $section = Section::find($data['section_id']);
+            if (!$section) {
+                return Helpers::apiResponse(false, 'Section Not Found', [], 404);
+            }
+            $task->update($data);
+            DB::commit();
+            return Helpers::apiResponse(true, 'Task Updated');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return Helpers::apiResponse(false, $th->getMessage(), [], 500);
+        }
+    }
 }
