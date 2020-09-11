@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::get('sections', 'SectionController@index');
+    Route::post('sections', 'SectionController@store');
 });
