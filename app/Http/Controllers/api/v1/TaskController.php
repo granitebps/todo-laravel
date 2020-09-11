@@ -13,7 +13,15 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = Task::with('section')->latest()->get();
+        $search = $request->q;
+        $filter = $request->f;
+        $tasks = Task::with('section')
+            ->latest()
+            ->where('name', 'like', "%$search%")
+            ->when($filter, function ($query) use ($filter) {
+                return $query->where('status', $filter);
+            })
+            ->get();
         return Helpers::apiResponse(true, '', $tasks);
     }
 
