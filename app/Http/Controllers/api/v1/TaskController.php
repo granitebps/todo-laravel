@@ -25,6 +25,15 @@ class TaskController extends Controller
         return Helpers::apiResponse(true, '', $tasks);
     }
 
+    public function show($id)
+    {
+        $task = Task::with('section')->find($id);
+        if (!$task) {
+            return Helpers::apiResponse(false, 'Task Not Found', [], 404);
+        }
+        return Helpers::apiResponse(true, '', $task);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
